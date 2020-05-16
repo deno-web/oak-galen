@@ -1,5 +1,3 @@
-import { Application, Middleware, Context } from 'https://deno.land/x/oak/mod.ts';
-
 export interface IRemoteMethod {
   path: string;
   method: string;
@@ -39,20 +37,10 @@ export interface ISchema {
   model: {
     [s: string]: {
       type: string;
+      length?: number;
       description?: string;
     }
   },
   required?: string[];
   remoteMethods?: IRemoteMethod[];
-}
-
-export interface IApplication extends Application {
-  coreMiddlewares: {
-    [s: string]: Middleware;
-  }
-  loadCoreMiddlewares: () => void;
-}
-
-export interface IContext extends Context {
-  schemas: ISchema[];
 }
