@@ -4,16 +4,25 @@ interface MiddlewareObject {
   [s: string]: Middleware
 }
 
-interface IApplication extends Application {
-  _coreMiddlewares: MiddlewareObject
+interface IApplication {
+  app: Application
+  coreMiddlewares: MiddlewareObject
+  loadMiddlewares: () => Promise<void>
 }
 
-class GalenApplication extends Application implements IApplication {
-  public _coreMiddlewares: MiddlewareObject
-  constructor (coreMiddlewares: MiddlewareObject) {
-    super()
-    this._coreMiddlewares = coreMiddlewares
-    }
+class GalenApplication implements IApplication {
+  public coreMiddlewares: MiddlewareObject
+  public app: Application
+  constructor (app: Application, coreMiddlewares: MiddlewareObject) {
+    this.app = app
+    this.coreMiddlewares = coreMiddlewares
+  }
+
+  public async loadMiddlewares () {
+    await Object.keys(this.coreMiddlewares).reduce(async (promise, key) => {
+      await promise
+      this.app.use(this.coreMiddlewares[key])
+    }, Promise.resolve())
   }
 }
 
