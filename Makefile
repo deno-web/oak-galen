@@ -1,3 +1,3 @@
 ################################################
 start:
-	@deno run --allow-net --allow-env mod.ts
+	@deno run --allow-net --allow-read --allow-env mod.ts

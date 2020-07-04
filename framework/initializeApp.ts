@@ -1,6 +1,6 @@
 import { Application } from 'https://deno.land/x/oak/mod.ts';
-import { IApplication } from './types.ts';
+// import { IApplication } from './types.ts';
 
-const app: IApplication = new Application();
+const app: Application = new Application();
 
 export default app;
