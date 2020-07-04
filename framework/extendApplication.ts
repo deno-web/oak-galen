@@ -1,6 +1,7 @@
 import { Application, Context, Middleware } from 'https://deno.land/x/oak/mod.ts';
 import buildCrudRemoteMethods from './model/crud.ts';
-import { ISchema } from './types.ts'
+import buildRouter from './buildRouter.ts';
+import { ISchema, IRemoteMethod } from './types.ts'
 
 interface MiddlewareObject {
   [s: string]: Middleware
@@ -8,16 +9,23 @@ interface MiddlewareObject {
 
 interface IApplication {
   app: Application
-  coreMiddleware: MiddlewareObject
+  coreMiddleware: string[]
+  coreMiddlewareObj: MiddlewareObject
   loadMiddleware: () => Promise<void>
 }
 
 class GalenApplication implements IApplication {
-  public coreMiddleware: MiddlewareObject
+  public coreMiddlewareObj: MiddlewareObject
+  public coreMiddleware: string[]
   public app: Application
-  constructor (app: Application, coreMiddleware: MiddlewareObject) {
+  public remoteMethods: {
+    [s: string]: IRemoteMethod
+  }
+  constructor (app: Application, coreMiddleware: string[], coreMiddlewareObj: MiddlewareObject) {
     this.app = app
     this.coreMiddleware = coreMiddleware
+    this.coreMiddlewareObj = coreMiddlewareObj
+    this.remoteMethods = {}
   }
 
   public async loadMiddleware () {
@@ -30,7 +38,7 @@ class GalenApplication implements IApplication {
         remoteMethods: {},
         modelSchema: {}
       }
-      const modelDirEntries = await Deno.readDirSync('./app/models')
+      const modelDirEntries = await Deno.readDirSync(`${Deno.cwd()}/app/models`)
       for (const entry of modelDirEntries) {
         if (entry.name.endsWith('.ts')) {
           const module = await import(`${Deno.cwd()}/app/models/${entry.name}`)
@@ -40,7 +48,7 @@ class GalenApplication implements IApplication {
           }
         }
         if (entry.name.endsWith('.json')) {
-          const schemaStr = await Deno.readTextFile(`./app/models/${entry.name}`)
+          const schemaStr = await Deno.readTextFile(`${Deno.cwd()}/app/models/${entry.name}`)
           const filename = entry.name.slice(0, -5)
           const schema = JSON.parse(schemaStr) as ISchema
           const modelName = filename.charAt(0).toUpperCase() + filename.slice(1)
@@ -68,11 +76,17 @@ class GalenApplication implements IApplication {
           }
         }
       }
+      this.remoteMethods = ctx.state.remoteMethods
       await next()
     })
     await Object.keys(this.coreMiddleware).reduce(async (promise, key) => {
       await promise
-      this.app.use(this.coreMiddleware[key])
+      if (key === 'router') {
+        const router = await buildRouter(this.remoteMethods)
+        this.app.use(router.routes())
+        this.app.use(router.allowedMethods())
+      }
+      this.app.use(this.coreMiddlewareObj[key])
     }, Promise.resolve())
   }
 }

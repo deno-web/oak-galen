@@ -1,7 +1,9 @@
 import { Application, Context } from 'https://deno.land/x/oak/mod.ts';
 import GalenApplication from './extendApplication.ts';
 
-const coreMiddleware = {
+const coreMiddleware = ['timing']
+
+const coreMiddlewareObj = {
   timing: async (ctx: Context, next: () => Promise<void>) => {
     const start = Date.now();
     await next();
@@ -10,6 +12,6 @@ const coreMiddleware = {
   }
 }
 
-const server = new GalenApplication(new Application(), coreMiddleware);
+const server = new GalenApplication(new Application(), coreMiddleware, coreMiddlewareObj);
 
 export default server;
