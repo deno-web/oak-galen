@@ -14,9 +14,13 @@ const coreMiddleware = {
     for (const entry of modelDirEntries) {
       if (entry.name.endsWith('.json')) {
         const schema = await Deno.readTextFile(`./app/models/${entry.name}`)
+        const { properties } = JSON.parse(schema)
         ctx.state.jsonSchemas = {
           ...ctx.state.jsonSchemas,
-          [entry.name]: JSON.parse(schema)
+          [entry.name.slice(0, -5)]: {
+            type: 'object',
+            properties
+          }
         }
       }
     }
