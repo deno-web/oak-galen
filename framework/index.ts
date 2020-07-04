@@ -1,3 +1,3 @@
-import app from './initializeApp.ts';
+import server from './initializeServer.ts';
 
-export default app;
+export default server;
