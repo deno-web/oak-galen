@@ -31,16 +31,3 @@ export interface IRemoteMethod {
     }
   } 
 }
-
-export interface ISchema {
-  description?: string;
-  model: {
-    [s: string]: {
-      type: string;
-      length?: number;
-      description?: string;
-    }
-  },
-  required?: string[];
-  remoteMethods?: IRemoteMethod[];
-}
