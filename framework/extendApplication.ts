@@ -32,9 +32,6 @@ class GalenApplication implements IApplication {
   public remoteMethods: {
     [s: string]: IRemoteMethod
   }
-  public remoteMethods: {
-    [s: string]: IRemoteMethod
-  }
   constructor (app: Application, coreMiddleware: string[], coreMiddlewareObj: MiddlewareObject) {
     this.app = app
     this.coreMiddleware = coreMiddleware
@@ -87,13 +84,10 @@ class GalenApplication implements IApplication {
       }
     }
     
-    console.log('----->', this.coreMiddleware, this.remoteMethods)
-    await Object.keys(this.coreMiddleware).reduce(async (promise, key) => {
+    await this.coreMiddleware.reduce(async (promise, key) => {
       await promise
       if (key === 'router') {
-        console.log('---->', key)
         const router = await buildRouter(this.remoteMethods)
-        console.log('----->', router)
         this.app.use(router.routes())
         this.app.use(router.allowedMethods())
       }

@@ -3,7 +3,7 @@ import{ IRemoteMethod } from './types.ts'
 
 
 
-export default async (remoteMethods: { [s: string]: IRemoteMethod }, prefix: string = 'v1') => {
+export default async (remoteMethods: { [s: string]: IRemoteMethod }, prefix: string = '/v1') => {
   const router = new Router()
   router.get('/', (ctx: Context) => {
     ctx.response.body = 'Hello, Galen!'
