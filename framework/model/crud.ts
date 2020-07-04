@@ -1,53 +1,4 @@
-interface IColumn {
-  type: string
-  description?: string
-}
-
-interface CrudOptions {
-  modelName: string
-  description: string | undefined
-  properties: {
-    [s: string]: IColumn
-  }
-  required: string[]
-}
-
-interface IRemoteMethod {
-  path: string
-  method: string
-  tags?: string[]
-  summary?: string
-  query?: {
-    [s: string]: IColumn
-  }
-  params?: {
-    [s: string]: IColumn
-  }
-  requestBody?: {
-    body?: {
-      [s: string]: IColumn
-    },
-    required?: string[]
-  },
-  output: {
-    [n: number]: {
-      type: string
-      result?: Object
-    }
-  } 
-}
-
-interface SchemaOptions {
-  description: string | undefined
-  dialect: string | undefined
-  properties: {
-    [s: string]: IColumn
-  }
-  required: string[] | undefined
-  remoteMethods: {
-    [s: string]: IRemoteMethod
-  }
-}
+import { ISchema, CrudOptions, IRemoteMethod } from '../types.ts'
 
 const buildCrudRemoteMethods = (options: CrudOptions): { [s: string]: IRemoteMethod } => {
   const { modelName, description = modelName, properties, required = [] } = options
@@ -164,7 +115,7 @@ const buildCrudRemoteMethods = (options: CrudOptions): { [s: string]: IRemoteMet
   }
 }
 
-export default (modelName: string, schema: SchemaOptions) => {
+export default (modelName: string, schema: ISchema): { [s: string]: IRemoteMethod } => {
   const { dialect, remoteMethods = {} } = schema
   if (dialect && dialect === 'virtual') {
     return remoteMethods

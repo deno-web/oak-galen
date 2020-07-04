@@ -1,33 +1,51 @@
+interface IColumn {
+  type: string
+  description?: string
+}
+
+export interface CrudOptions {
+  modelName: string
+  description: string | undefined
+  properties: {
+    [s: string]: IColumn
+  }
+  required: string[]
+}
+
 export interface IRemoteMethod {
-  path: string;
-  method: string;
-  tags?: string[];
-  summary?: string;
+  path: string
+  method: string
+  tags?: string[]
+  summary?: string
   query?: {
-    [s: string]: {
-      type: string;
-      description?: string;
-    }
-  };
+    [s: string]: IColumn
+  }
   params?: {
-    [s: string]: {
-      type: string;
-      description?: string;
-    }
-  };
+    [s: string]: IColumn
+  }
   requestBody?: {
     body?: {
-      [s: string]: {
-        type: string;
-        description?: string;
-      }
+      [s: string]: IColumn
     },
-    required?: string[];
+    required?: string[]
   },
   output: {
     [n: number]: {
-      type: string;
-      result?: Object;
+      type: string
+      result?: Object
     }
   } 
 }
+
+export interface ISchema {
+  description: string | undefined
+  dialect: string | undefined
+  properties: {
+    [s: string]: IColumn
+  }
+  required: string[] | undefined
+  remoteMethods: {
+    [s: string]: IRemoteMethod
+  }
+}
+
