@@ -1,4 +1,4 @@
-interface IColumn {
+export interface IColumn {
   type: string
   description?: string
 }
