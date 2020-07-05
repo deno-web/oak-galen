@@ -19,36 +19,64 @@ export default async (remoteMethods: { [s: string]: IRemoteMethod }, prefix: str
     if (['get', 'GET'].includes(method)) {
       router.get(`${prefix}${path}`, async (ctx: Context) => {
         if (ctx.state.model[modelName] && ctx.state.model[modelName][handler]) {
-          ctx.response.body = await ctx.state.model[modelName][handler]()
+          ctx.response.body = {
+            message: 'success',
+            code: 0,
+            result: await ctx.state.model[modelName][handler]()
+          }
         } else {
-          ctx.response.body = 'NOT_FOUND_IMPL'
+          ctx.response.body = {
+            message: 'error',
+            code: 404
+          }
         }
       })
     }
     if (['post', 'POST'].includes(method)) {
       router.post(`${prefix}${path}`, async (ctx: Context) => {
         if (ctx.state.model[modelName] && ctx.state.model[modelName][handler]) {
-          ctx.response.body = await ctx.state.model[modelName][handler]()
+          ctx.response.body = {
+            message: 'success',
+            code: 0,
+            result: await ctx.state.model[modelName][handler]()
+          }
         } else {
-          ctx.response.body = 'NOT_FOUND_IMPL'
+          ctx.response.body = {
+            message: 'error',
+            code: 404
+          }
         }
       })
     }
     if (['put', 'PUT'].includes(method)) {
       router.put(`${prefix}${path}`, async (ctx: Context) => {
         if (ctx.state.model[modelName] && ctx.state.model[modelName][handler]) {
-          ctx.response.body = await ctx.state.model[modelName][handler]()
+          ctx.response.body = {
+            message: 'success',
+            code: 0,
+            result: await ctx.state.model[modelName][handler]()
+          }
         } else {
-          ctx.response.body = 'NOT_FOUND_IMPL'
+          ctx.response.body = {
+            message: 'error',
+            code: 404
+          }
         }
       })
     }
     if (['delete', 'DELETE'].includes(method)) {
       router.delete(`${prefix}${path}`, async (ctx: Context) => {
         if (ctx.state.model[modelName] && ctx.state.model[modelName][handler]) {
-          ctx.response.body = await ctx.state.model[modelName][handler]()
+          ctx.response.body = {
+            message: 'success',
+            code: 0,
+            result: await ctx.state.model[modelName][handler]()
+          }
         } else {
-          ctx.response.body = 'NOT_FOUND_IMPL'
+          ctx.response.body = {
+            message: 'error',
+            code: 404
+          }
         }
       })
     }
