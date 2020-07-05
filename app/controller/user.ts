@@ -16,11 +16,11 @@ export default class User {
     return {}
   }
 
-  static async update(ctx: Context): Promise<Object> {
+  static async update(ctx: Context): Promise<Number> {
     return 1
   }
 
-  static async destroy(ctx: Context): Promise<Object> {
+  static async destroy(ctx: Context): Promise<Number> {
     return 1
   }
 }
