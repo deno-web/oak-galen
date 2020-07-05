@@ -47,13 +47,6 @@ class GalenApplication implements IApplication {
       
     const modelDirEntries = await Deno.readDirSync(`${Deno.cwd()}/app/models`)
     for (const entry of modelDirEntries) {
-      // if (entry.name.endsWith('.ts')) {
-      //   const module = await import(`${Deno.cwd()}/app/models/${entry.name}`)
-      //   this.model = {
-      //     ...this.model,
-      //     [entry.name.slice(0, -3)]: module.default
-      //   }
-      // }
       if (entry.name.endsWith('.json')) {
         const schemaStr = await Deno.readTextFile(`${Deno.cwd()}/app/models/${entry.name}`)
         const filename = entry.name.slice(0, -5)
@@ -83,6 +76,28 @@ class GalenApplication implements IApplication {
         }
       }
     }
+
+    let model = {}
+    const controllerDirEntries = await Deno.readDirSync(`${Deno.cwd()}/app/controller`)
+      for (const entry of controllerDirEntries) {
+        if (entry.name.endsWith('.ts')) {
+          const module = await import(`${Deno.cwd()}/app/controller/${entry.name}`)
+          model = {
+            ...model,
+            [entry.name.slice(0, -3)]: module.default
+          }
+        }
+      }
+
+    this.app.use(async (ctx: Context, next: () => Promise<void>) => {
+      ctx.state = {
+        jsonSchema: this.jsonSchema,
+        modelSchema: this.modelSchema,
+        remoteMethods: this.remoteMethods,
+        model
+      }
+      await next()
+    })
     
     await this.coreMiddleware.reduce(async (promise, key) => {
       await promise

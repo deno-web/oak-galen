@@ -10,7 +10,7 @@ export default async (remoteMethods: { [s: string]: IRemoteMethod }, prefix: str
   })
   await Object.keys(remoteMethods).reduce(async (promise, key) => {
     await promise
-    const [, handler] = key.split('-')
+    const [modelName, handler] = key.split('-')
     if (/^[A-Z]/.test(handler)) {
       return
     }
@@ -18,22 +18,22 @@ export default async (remoteMethods: { [s: string]: IRemoteMethod }, prefix: str
     // TODO: validate roles, params and requestBody
     if (['get', 'GET'].includes(method)) {
       router.get(`${prefix}${path}`, (ctx: Context) => {
-        ctx.response.body = 'NOT_FOUND_IMPL'
+        ctx.response.body = ctx.state.model[modelName][handler] ? Promise.resolve(ctx.state.model[modelName][handler]()) : 'NOT_FOUND_IMPL'
       })
     }
     if (['post', 'POST'].includes(method)) {
       router.post(`${prefix}${path}`, (ctx: Context) => {
-        ctx.response.body = 'NOT_FOUND_IMPL'
+        ctx.response.body = ctx.state.model[modelName][handler] ? Promise.resolve(ctx.state.model[modelName][handler]()) : 'NOT_FOUND_IMPL'
       })
     }
     if (['put', 'PUT'].includes(method)) {
       router.put(`${prefix}${path}`, (ctx: Context) => {
-        ctx.response.body = 'NOT_FOUND_IMPL'
+        ctx.response.body = ctx.state.model[modelName][handler] ? Promise.resolve(ctx.state.model[modelName][handler]()) : 'NOT_FOUND_IMPL'
       })
     }
     if (['delete', 'DELETE'].includes(method)) {
       router.delete(`${prefix}${path}`, (ctx: Context) => {
-        ctx.response.body = 'NOT_FOUND_IMPL'
+        ctx.response.body = ctx.state.model[modelName][handler] ? Promise.resolve(ctx.state.model[modelName][handler]()) : 'NOT_FOUND_IMPL'
       })
     }
   }, Promise.resolve())
