@@ -23,12 +23,36 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
       method,
       tags,
       summary,
+      params,
+      query,
       requestBody,
     } = remoteMethods[schemaKey];
     const content: Object = {
       tags: tags || ["default"],
       summary: summary || "",
-      parameters: {},
+      parameters: [...(query
+        ? Object.keys(query).map((key) => {
+          return {
+            name: key,
+            in: "query",
+            description: query![key]!.description,
+            schema: {
+              type: query![key]!.type,
+            },
+            required: false,
+          };
+        })
+        : []), ...(params
+          ? Object.keys(params).map((key) => ({
+            name: key,
+            in: "path",
+            description: params![key]!.description,
+            schema: {
+              type: params![key]!.type,
+            },
+            required: true,
+          }))
+          : [])],
       requestBody: requestBody
         ? {
           required: true,
