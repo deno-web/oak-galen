@@ -14,7 +14,7 @@ interface IJsonSchema {
   };
 }
 
-// const resTypeList = ['array', 'object', 'number', 'string', 'html']
+const resTypeList = ['list', 'inst', 'number', 'string', 'html']
 
 export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
   const paths = Object.keys(remoteMethods).map((schemaKey: string) => {
@@ -26,7 +26,9 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
       params,
       query,
       requestBody,
+      output,
     } = remoteMethods[schemaKey];
+    const [modelName] = schemaKey.split('_');
     const content: Object = {
       tags: tags || ["default"],
       summary: summary || "",
@@ -78,17 +80,17 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
   return {
     openapi: "3.0.0",
     info: {
-      title: "Koa-galen API document",
+      title: "Oak-galen API document",
       version: "v3",
-      description: "Using swagger3.0 & sequelize to generate document",
+      description: "Using swagger3.0 & oak to generate document",
       contact: {
         name: "AlfieriChou",
         email: "alfierichou@gmail.com",
-        url: "https://github.com/AlfieriChou/koa-galen",
+        url: "https://github.com/AlfieriChou",
       },
       license: {
         name: "MIT",
-        url: "https://github.com/AlfieriChou/koa-galen/blob/master/LICENSE",
+        url: "https://github.com/deno-web/oak-galen/blob/master/LICENSE",
       },
     },
     paths: paths.reduce((acc: Object, path: Object) => merge(acc, path), {}),
