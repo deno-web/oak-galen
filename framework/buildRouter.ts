@@ -7,7 +7,7 @@ const controllerHandler = (modelName: string, handler: string) => {
       ctx.response.body = {
         message: "success",
         code: 0,
-        result: await ctx.state.model[modelName][handler](),
+        result: await ctx.state.model[modelName][handler](ctx),
       };
     } else {
       ctx.response.body = {
