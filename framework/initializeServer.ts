@@ -1,7 +1,7 @@
-import { Application, Context } from 'https://deno.land/x/oak/mod.ts';
-import GalenApplication from './extendApplication.ts';
+import { Application, Context } from "https://deno.land/x/oak/mod.ts";
+import GalenApplication from "./extendApplication.ts";
 
-const coreMiddleware = ['timing', 'router']
+const coreMiddleware = ["timing", "router"];
 
 const coreMiddlewareObj = {
   timing: async (ctx: Context, next: () => Promise<void>) => {
@@ -9,9 +9,13 @@ const coreMiddlewareObj = {
     await next();
     const ms = Date.now() - start;
     ctx.response.headers.set("X-Response-Time", `${ms}ms`);
-  }
-}
+  },
+};
 
-const server = new GalenApplication(new Application(), coreMiddleware, coreMiddlewareObj);
+const server = new GalenApplication(
+  new Application(),
+  coreMiddleware,
+  coreMiddlewareObj,
+);
 
 export default server;

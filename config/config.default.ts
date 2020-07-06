@@ -1,5 +1,5 @@
-import { IConfig } from '../types.ts';
+import { IConfig } from "../types.ts";
 
-export default <IConfig>{
-  port: 8000
-}
+export default <IConfig> {
+  port: 8000,
+};

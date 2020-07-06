@@ -1,3 +1,3 @@
-import server from './initializeServer.ts';
+import server from "./initializeServer.ts";
 
 export default server;

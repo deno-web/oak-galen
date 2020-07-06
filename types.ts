@@ -1,3 +1,3 @@
 export interface IConfig {
-  port: number
+  port: number;
 }
