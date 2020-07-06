@@ -1,4 +1,5 @@
 import { IRemoteMethod, IColumn } from "./types.ts";
+import merge from "https://deno.land/x/lodash/merge.js";
 
 interface IRemoteMethods {
   [s: string]: IRemoteMethod;
@@ -16,7 +17,7 @@ interface IJsonSchema {
 // const resTypeList = ['array', 'object', 'number', 'string', 'html']
 
 export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
-  const paths = Object.keys(remoteMethods).reduce((acc, schemaKey: string) => {
+  const paths = Object.keys(remoteMethods).map((schemaKey: string) => {
     const {
       path,
       method,
@@ -45,12 +46,11 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
       responses: {},
     };
     return {
-      ...acc,
       [path]: {
         [method]: content,
       },
     };
-  }, {});
+  });
   return {
     openapi: "3.0.0",
     info: {
@@ -67,9 +67,9 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
         url: "https://github.com/AlfieriChou/koa-galen/blob/master/LICENSE",
       },
     },
-    paths,
+    paths: paths.reduce((acc: Object, path: Object) => merge(acc, path), {}),
     components: {
-      jsonSchema,
+      schemas: jsonSchema,
     },
   };
 };
