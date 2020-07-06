@@ -4,7 +4,10 @@ import buildSwaggerDoc from "./buildSwagger.ts";
 
 const controllerHandler = (modelName: string, handler: string) => {
   return async (ctx: Context) => {
-    if (ctx.state.controller[modelName] && ctx.state.controller[modelName][handler]) {
+    if (
+      ctx.state.controller[modelName] &&
+      ctx.state.controller[modelName][handler]
+    ) {
       ctx.response.body = {
         message: "success",
         code: 0,
@@ -28,10 +31,13 @@ export default async (
     ctx.response.body = "Hello, Galen!";
   });
   router.get("/swagger.json", (ctx: Context) => {
-    ctx.response.body = buildSwaggerDoc(ctx.state.remoteMethods, ctx.state.jsonSchema);
+    ctx.response.body = buildSwaggerDoc(
+      ctx.state.remoteMethods,
+      ctx.state.jsonSchema,
+    );
   });
-  router.get('/apiDoc', (ctx: Context) => {
-    ctx.response.type = 'text/html'
+  router.get("/apiDoc", (ctx: Context) => {
+    ctx.response.type = "text/html";
     ctx.response.body = `<!-- HTML for public distribution bundle build -->
     <!DOCTYPE html>
     <html lang="en">
@@ -111,8 +117,8 @@ export default async (
     }
     </script>
     </body>               
-    </html>`
-  })
+    </html>`;
+  });
   await Object.keys(remoteMethods).reduce(async (promise, key) => {
     await promise;
     const [modelName, handler] = key.split("-");
