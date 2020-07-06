@@ -3,11 +3,11 @@ import { IRemoteMethod } from "./types.ts";
 
 const controllerHandler = (modelName: string, handler: string) => {
   return async (ctx: Context) => {
-    if (ctx.state.model[modelName] && ctx.state.model[modelName][handler]) {
+    if (ctx.state.controller[modelName] && ctx.state.controller[modelName][handler]) {
       ctx.response.body = {
         message: "success",
         code: 0,
-        result: await ctx.state.model[modelName][handler](ctx),
+        result: await ctx.state.controller[modelName][handler](ctx),
       };
     } else {
       ctx.response.body = {

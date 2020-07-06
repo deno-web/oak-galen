@@ -87,7 +87,7 @@ class GalenApplication implements IApplication {
       }
     }
 
-    let model = {};
+    let controller = {};
     const controllerDirEntries = await Deno.readDirSync(
       `${Deno.cwd()}/app/controller`,
     );
@@ -96,8 +96,8 @@ class GalenApplication implements IApplication {
         const module = await import(
           `${Deno.cwd()}/app/controller/${entry.name}`
         );
-        model = {
-          ...model,
+        controller = {
+          ...controller,
           [entry.name.slice(0, -3)]: module.default,
         };
       }
@@ -108,7 +108,7 @@ class GalenApplication implements IApplication {
         jsonSchema: this.jsonSchema,
         modelSchema: this.modelSchema,
         remoteMethods: this.remoteMethods,
-        model,
+        controller,
       };
       await next();
     });
