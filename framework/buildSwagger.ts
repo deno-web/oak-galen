@@ -1,5 +1,4 @@
 import { IRemoteMethod, IColumn } from "./types.ts";
-import merge from "https://deno.land/x/lodash/merge.js";
 
 interface IRemoteMethods {
   [s: string]: IRemoteMethod;
@@ -93,7 +92,7 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
         url: "https://github.com/deno-web/oak-galen/blob/master/LICENSE",
       },
     },
-    paths: paths.reduce((acc: Object, path: Object) => merge(acc, path), {}),
+    paths: paths.reduce((acc: Object, path: Object) => ({ ...acc, ...path }), {}),
     components: {
       schemas: jsonSchema,
     },
