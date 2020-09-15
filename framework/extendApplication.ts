@@ -6,7 +6,6 @@ import {
 import buildCrudRemoteMethods from "./model/crud.ts";
 import buildRouter from "./buildRouter.ts";
 import { IColumn, ISchema, IRemoteMethod } from "./types.ts";
-import { readJsonSync } from 'https://deno.land/std/fs/mod.ts'
 
 interface MiddlewareObject {
   [s: string]: Middleware;
@@ -58,7 +57,7 @@ class GalenApplication implements IApplication {
     for (const entry of modelDirEntries) {
       if (entry.name.endsWith(".json")) {
         const filename = entry.name.slice(0, -5);
-        const schema = await readJsonSync(`${Deno.cwd()}/app/models/${entry.name}`) as ISchema;
+        const schema = JSON.parse(await Deno.readTextFile(`${Deno.cwd()}/app/models/${entry.name}`)) as ISchema;
         const modelName = filename.charAt(0).toUpperCase() + filename.slice(1);
         const { properties } = schema;
         const crudRemoteMethods = buildCrudRemoteMethods(filename, schema);

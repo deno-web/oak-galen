@@ -27,8 +27,6 @@ const buildCrudRemoteMethods = (
       },
       output: {
         200: {
-          type: "object",
-          result: {
             count: { type: "integer", description: "总数" },
             offset: { type: "integer", description: "偏移量" },
             limit: { type: "integer", description: "限制数量" },
@@ -37,7 +35,6 @@ const buildCrudRemoteMethods = (
               items: { type: "object", properties },
               description: "数据",
             },
-          },
         },
       },
     },
@@ -56,10 +53,7 @@ const buildCrudRemoteMethods = (
         required,
       },
       output: {
-        200: {
-          type: "object",
-          result: properties,
-        },
+        200: properties,
       },
     },
     show: {
@@ -74,10 +68,7 @@ const buildCrudRemoteMethods = (
         },
       },
       output: {
-        200: {
-          type: "object",
-          result: properties,
-        },
+        200: properties
       },
     },
     update: {
@@ -101,10 +92,7 @@ const buildCrudRemoteMethods = (
       },
       output: {
         200: {
-          type: "array",
-          result: {
-            type: "number",
-          },
+          type: "number",
         },
       },
     },

@@ -13,10 +13,14 @@ interface IJsonSchema {
   };
 }
 
-const resTypeList = ['list', 'inst', 'number', 'string', 'html']
+interface ApiSchema {
+  [s: string]: {
+    [s: string]: Object
+  }
+}
 
 export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
-  const paths = Object.keys(remoteMethods).map((schemaKey: string) => {
+  const paths = Object.keys(remoteMethods).reduce((acc: ApiSchema, schemaKey: string) => {
     const {
       path,
       method,
@@ -68,14 +72,36 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
           },
         }
         : undefined,
-      responses: {},
+      responses: Object.keys(output).reduce((acc: Object, key: string) => {
+        return {
+          ...acc,
+          [key]: {
+            description: 'response success',
+            content: {
+              'application/json': {
+                schema: { type: 'object', properties: output[key] }
+              }
+            }
+          }
+        }
+      }, {}),
     };
+    if (acc[path] as Object) {
+      return {
+        ...acc,
+        [path]: {
+          ...acc[path],
+          [method]: content,
+        }
+      }
+    }
     return {
+      ...acc,
       [path]: {
         [method]: content,
-      },
+      }
     };
-  });
+  }, {});
   return {
     openapi: "3.0.0",
     info: {

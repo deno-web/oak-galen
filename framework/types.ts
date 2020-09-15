@@ -30,10 +30,7 @@ export interface IRemoteMethod {
     required?: string[];
   };
   output: {
-    [n: number]: {
-      type: string;
-      result?: Object;
-    };
+    [n: string]: Object;
   };
 }
 
