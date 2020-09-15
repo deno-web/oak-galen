@@ -1,2 +1,4 @@
 scripts:
-  start: deno run --unstable --allow-net --allow-env mod.ts
+  start: deno run --allow-net --allow-read --allow-env --unstable mod.ts
+  reload: deno run --reload --allow-net --allow-read --allow-env --unstable mod.ts
+  fmt: deno fmt
