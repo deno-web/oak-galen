@@ -27,14 +27,14 @@ const buildCrudRemoteMethods = (
       },
       output: {
         200: {
-            count: { type: "integer", description: "总数" },
-            offset: { type: "integer", description: "偏移量" },
-            limit: { type: "integer", description: "限制数量" },
-            data: {
-              type: "array",
-              items: { type: "object", properties },
-              description: "数据",
-            },
+          count: { type: "integer", description: "总数" },
+          offset: { type: "integer", description: "偏移量" },
+          limit: { type: "integer", description: "限制数量" },
+          data: {
+            type: "array",
+            items: { type: "object", properties },
+            description: "数据",
+          },
         },
       },
     },
@@ -68,7 +68,7 @@ const buildCrudRemoteMethods = (
         },
       },
       output: {
-        200: properties
+        200: properties,
       },
     },
     update: {
