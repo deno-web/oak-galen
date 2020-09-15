@@ -92,7 +92,7 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
         url: "https://github.com/deno-web/oak-galen/blob/master/LICENSE",
       },
     },
-    paths: paths.reduce((acc: Object, path: Object) => ({ ...acc, ...path }), {}),
+    paths,
     components: {
       schemas: jsonSchema,
     },
