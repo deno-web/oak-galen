@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] swagger responses
+- [x] swagger responses
 - [ ] mysql migration
 - [ ] orm model
 - [ ] orm base functions
