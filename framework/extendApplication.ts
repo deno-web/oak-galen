@@ -2,7 +2,7 @@ import {
   Application,
   Context,
   Middleware,
-} from "https://deno.land/x/oak/mod.ts";
+} from "oak";
 import buildCrudRemoteMethods from "./model/crud.ts";
 import buildRouter from "./buildRouter.ts";
 import { IColumn, ISchema, IRemoteMethod } from "./types.ts";

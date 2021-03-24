@@ -1,4 +1,4 @@
-import { Context } from "https://deno.land/x/oak/mod.ts";
+import { Context } from "oak";
 
 export default class User {
   static async index(ctx: Context): Promise<Object> {

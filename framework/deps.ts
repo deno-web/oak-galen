@@ -2,4 +2,4 @@ export {
   Application,
   Context,
   Middleware,
-} from "https://deno.land/x/oak/mod.ts";
+} from "oak";

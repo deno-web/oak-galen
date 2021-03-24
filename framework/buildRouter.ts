@@ -1,4 +1,4 @@
-import { Router, Context } from "https://deno.land/x/oak/mod.ts";
+import { Router, Context } from "oak";
 import { IRemoteMethod } from "./types.ts";
 import buildSwaggerDoc from "./buildSwagger.ts";
 
