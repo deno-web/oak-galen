@@ -1,12 +1,18 @@
 {
   "allow": ["net", "read", "env"],
   "scripts": {
+    "dev": {
+      "cmd": "deno run --unstable mod.ts",
+      "log": "debug",
+      "imap": "./scripts.json"
+    },
     "start": {
       "cmd": "deno run --unstable mod.ts",
       "imap": "./scripts.json"
     },
     "reload": {
-      "cmd": "deno run --reload --unstable mod.ts",
+      "cmd": "deno run --unstable mod.ts",
+      "reload": true,
       "imap": "./scripts.json"
     },
     "fmt": "deno fmt"
