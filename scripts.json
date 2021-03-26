@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "deno run --allow-net --allow-read --allow-env --unstable --import-map=./scripts.json mod.ts",
+    "reload": "deno run --reload --allow-net --allow-read --allow-env --unstable mod.ts",
+    "fmt": "deno fmt"
+  },
+  "imports": {
+    "oak": "https://deno.land/x/oak/mod.ts"
+  }
+}
