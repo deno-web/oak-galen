@@ -1,7 +1,14 @@
 {
+  "allow": ["net", "read", "env"],
   "scripts": {
-    "start": "deno run --allow-net --allow-read --allow-env --unstable --import-map=./scripts.json mod.ts",
-    "reload": "deno run --reload --allow-net --allow-read --allow-env --unstable mod.ts",
+    "start": {
+      "cmd": "deno run --unstable mod.ts",
+      "imap": "./scripts.json"
+    },
+    "reload": {
+      "cmd": "deno run --reload --unstable mod.ts",
+      "imap": "./scripts.json"
+    },
     "fmt": "deno fmt"
   },
   "imports": {
