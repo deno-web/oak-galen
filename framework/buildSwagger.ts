@@ -32,7 +32,6 @@ export default (remoteMethods: IRemoteMethods, jsonSchema: IJsonSchema) => {
         requestBody,
         output,
       } = remoteMethods[schemaKey];
-      const [modelName] = schemaKey.split("_");
       const content: Object = {
         tags: tags || ["default"],
         summary: summary || "",
