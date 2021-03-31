@@ -30,13 +30,13 @@ export default async (
   router.get("/", (ctx: Context) => {
     ctx.response.body = "Hello, Galen!";
   });
-  router.get("/swagger.json", (ctx: Context) => {
+  router.get(`${prefix}/swagger.json`, (ctx: Context) => {
     ctx.response.body = buildSwaggerDoc(
       ctx.state.remoteMethods,
       ctx.state.jsonSchema,
     );
   });
-  router.get("/apiDoc", (ctx: Context) => {
+  router.get(`${prefix}/apiDoc`, (ctx: Context) => {
     ctx.response.type = "text/html";
     ctx.response.body = `<!-- HTML for public distribution bundle build -->
     <!DOCTYPE html>
@@ -101,7 +101,7 @@ export default async (
     window.onload = function() {
       // Build a system
       const ui = SwaggerUIBundle({
-        url: "/swagger.json",
+        url: '${prefix}/swagger.json',
         dom_id: '#swagger-ui',
         deepLinking: true,
         presets: [
