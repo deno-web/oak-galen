@@ -12,6 +12,4 @@ const configMap: IConfigMap = {
   default: defaultConfig,
 };
 
-export default typeof env === "undefined"
-  ? configMap["default"]
-  : configMap[env];
+export default configMap[env || "default"];
